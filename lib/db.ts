@@ -15,7 +15,7 @@ export class DB {
   }
 
   async getUSBPortName(usbID: string): Promise<string> {
-    let res = store.state.modems.list[usbID]
+    let res = store.getters.modems.list[usbID]
     if (!res) {
       return 'unnamed';
     }
@@ -24,7 +24,7 @@ export class DB {
   }
 
   async findDeviceConfig(vendorID: string, deviceID: string): Promise<DriverConfig> {
-    let userConfig = store.state.configurations.list[vendorID+'_'+deviceID]
+    let userConfig = store.getters.configurations.list[vendorID+'_'+deviceID]
 
     if (!userConfig) {
       return this.defaultConfig
@@ -34,7 +34,7 @@ export class DB {
   }
 
   async findUserConfigForImei(imei: string): Promise<DriverConfig | false> {
-    let userConfig = store.state.configurations.list[imei]
+    let userConfig = store.getters.configurations.list[imei]
 
     if (userConfig) {
       let config = JSON.parse(userConfig.config);
@@ -49,7 +49,7 @@ export class DB {
 
 
   async saveModemConfig(modem: ModemObjectForInterface) {
-    let modemConfig = store.state.configurations.list[modem.info.imei]
+    let modemConfig = store.getters.configurations.list[modem.info.imei]
 
     if (!modemConfig) {
       store.dispatch('configurations/set', {
@@ -73,7 +73,7 @@ export class DB {
 
     let usbID = modem.usbID;
 
-    let usbNames = store.state.ports.list[usbID]
+    let usbNames = store.getters.ports.list[usbID]
 
     if (!usbNames) {
       store.dispatch('ports/set', {

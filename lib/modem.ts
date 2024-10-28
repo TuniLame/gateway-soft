@@ -130,7 +130,7 @@ export class ModemConnector extends EventEmitter {
 
     this.timeout = timeout;
 
-    this.port = new SerialPort(this.portName, {
+    this.port = new SerialPort.Stream(this.portName, {
       baudRate: 115200
     });
     let deferr = new Deferred(timeout);
